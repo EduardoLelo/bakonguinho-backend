@@ -1,0 +1,34 @@
+GUIA RÁPIDO — BAKONGUINHO BACKEND NO RENDER
+
+1. Envie esta pasta para um repositório GitHub.
+2. No Render: New > Web Service > escolha o repositório.
+3. Runtime: Node.
+4. Build Command: npm install
+5. Start Command: npm start
+6. Health Check Path: /health
+7. Crie um Persistent Disk com Mount Path: /var/data e pelo menos 1 GB.
+8. Variáveis de ambiente:
+   NODE_ENV=production
+   SESSION_SECRET=gere uma chave longa e aleatória
+   ADMIN_EMAIL=admin@bakonguinho.ao
+   ADMIN_PASSWORD=defina uma senha forte
+   DATA_DIR=/var/data
+   DB_PATH=/var/data/bakonguinho.db
+   UPLOADS_DIR=/var/data/uploads
+9. Depois do deploy, teste: https://SEU-ENDERECO.onrender.com/health
+   Deve aparecer: {"ok":true,"service":"bakonguinho-api"}
+
+LIGAÇÃO COM A NETLIFY
+
+No frontend hospedado na Netlify, configure um proxy para o endereço do backend:
+
+/api/*      -> https://SEU-ENDERECO.onrender.com/api/:splat
+/uploads/*  -> https://SEU-ENDERECO.onrender.com/uploads/:splat
+
+Atenção: substitua SEU-ENDERECO pelo domínio real criado pelo Render.
+
+IMPORTANTE
+- Não publique .env.
+- Não coloque ADMIN_PASSWORD diretamente no código.
+- SQLite precisa de Persistent Disk para não perder dados.
+- O administrador é criado na primeira execução usando ADMIN_EMAIL e ADMIN_PASSWORD.
